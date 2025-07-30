@@ -22,8 +22,8 @@ const main = (async () => {
         await fetchTarkovDevData(graphQLClient, 'pve');
 
         // Fetch the latest prices.json and handbook.json from SPT's git repo
-        await downloadFile('https://raw.githubusercontent.com/sp-tarkov/server/refs/heads/master/project/assets/database/templates/handbook.json', 'spthandbook.json');
-        await downloadFile('https://raw.githubusercontent.com/sp-tarkov/server/refs/heads/master/project/assets/database/templates/prices.json', 'sptprices.json');
+        await downloadFile('https://github.com/sp-tarkov/server-csharp/raw/refs/heads/develop/Libraries/SPTarkov.Server.Assets/SPT_Data/database/templates/handbook.json', 'spthandbook.json');
+        await downloadFile('https://github.com/sp-tarkov/server-csharp/raw/refs/heads/develop/Libraries/SPTarkov.Server.Assets/SPT_Data/database/templates/prices.json', 'sptprices.json');
     }
 
     // Tarkov has disabled flea for this wipe for PvP, so don't update the prices
