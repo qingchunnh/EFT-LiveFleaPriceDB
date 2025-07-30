@@ -1,0 +1,39 @@
+name: Update items json
+
+on:
+  workflow_dispatch:
+
+jobs:
+  update-items:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          lfs: true
+
+      - name: Install Git LFS
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y git-lfs
+          git lfs install
+
+      - name: Download LFS file to root directory
+        run: |
+          git clone https://github.com/sp-tarkov/server-csharp.git /tmp/source-repo
+          cd /tmp/source-repo
+          git checkout develop
+          git lfs pull
+          cp Libraries/SPTarkov.Server.Assets/SPT_Data/database/templates/items.json $GITHUB_WORKSPACE/items.json
+          echo "Downloaded file size: $(ls -la $GITHUB_WORKSPACE/items.json)"
+
+      - name: Commit and push
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add items.json
+          git commit -m "Update items.json"
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
